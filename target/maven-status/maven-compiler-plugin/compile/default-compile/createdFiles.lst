@@ -1,1 +1,3 @@
+entity\Insumo.class
 servicios\ServicioInsumo.class
+entity\Response.class

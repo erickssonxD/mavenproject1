@@ -4,6 +4,9 @@
  */
 package servicios;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import entity.Response;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -21,5 +24,19 @@ public class ServicioInsumo {
     @WebMethod(operationName = "hello")
     public String hello(@WebParam(name = "name") String txt) {
         return "Hello " + txt + " !";
+    }
+    
+    @WebMethod(action = "agregarInsumo")
+    public String agregarInsumo(int codigo, String nombre, int valor) {
+        String salida;
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+        Response r = new Response();
+        
+        r.setStatus(200);
+        r.setData("Agregado el insumo " + nombre);
+        
+        salida = gson.toJson(r);
+        
+        return salida;
     }
 }
