@@ -71,7 +71,7 @@ public class ServicioInsumo {
         return salida;
     }
 
-    @WebMethod(action = "consultarInsumo")
+    @WebMethod(action = "consultarInsumos")
     public String consultarInsumos() {
         String salida;
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
@@ -89,7 +89,7 @@ public class ServicioInsumo {
         return salida;
     }
 
-    @WebMethod(action = "consultarInsumoPorCodigo")
+    @WebMethod(action = "consultarInsumoByCodigo")
     public String consultarInsumo(int codigo) {
         String salida;
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
