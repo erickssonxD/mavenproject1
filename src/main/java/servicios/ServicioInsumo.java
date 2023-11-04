@@ -112,7 +112,8 @@ public class ServicioInsumo {
     }
 
     @WebMethod(action = "eliminarInsumo")
-    public String eliminarInsumo(int codigo) {
+    public String eliminarInsumo(
+            @WebParam(name = "codigo") int codigo) {
         String salida;
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
         Response r = new Response();
@@ -166,7 +167,8 @@ public class ServicioInsumo {
     }
 
     @WebMethod(action = "consultarInsumoByCodigo")
-    public String consultarInsumo(int codigo) {
+    public String consultarInsumo(
+            @WebParam(name = "codigo") int codigo) {
         String salida;
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
         Response r = new Response();
