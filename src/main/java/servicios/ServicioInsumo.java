@@ -4,6 +4,7 @@
  */
 package servicios;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import entity.Insumo;
@@ -13,6 +14,13 @@ import java.util.List;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
+import java.io.FileReader;
+import java.io.FileWriter;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import java.io.File;
+import java.util.Optional;
 
 /**
  *
@@ -77,14 +85,17 @@ public class ServicioInsumo {
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
         Response r = new Response();
 
-        List array = new ArrayList<>();
+        try {
+            JsonReader reader = new JsonReader(new FileReader("productos.json"));
+            List<Insumo> insumos = gson.fromJson(reader, new TypeToken<List<Insumo>>() {
+            }.getType());
+            r.setStatus(200);
+            r.setData(insumos);
+        } catch (Exception e) {
+            r.setStatus(500);
+            r.setData("Error reading 'productos.json'");
+        }
 
-        array.add(new Insumo(1, "Clavo", 1));
-        array.add(new Insumo(2, "Martillo", 1000));
-        array.add(new Insumo(3, "Perno", 2));
-
-        r.setStatus(200);
-        r.setData(array);
         salida = gson.toJson(r);
         return salida;
     }
@@ -95,20 +106,28 @@ public class ServicioInsumo {
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
         Response r = new Response();
 
-        Insumo insumo = null;
+        try {
+            JsonReader reader = new JsonReader(new FileReader("productos.json"));
+            List<Insumo> insumos = gson.fromJson(reader, new TypeToken<List<Insumo>>() {
+            }.getType());
 
-        if (codigo == 1) {
-            insumo = new Insumo(1, "Clavo", 1);
-        } else if (codigo == 2) {
-            insumo = new Insumo(2, "Martillo", 1000);
-        } else {
-            insumo = new Insumo(3, "Perno", 2);
+            Optional<Insumo> foundInsumo = insumos.stream()
+                    .filter(insumo -> insumo.getCodigo() == codigo)
+                    .findFirst();
+
+            if (foundInsumo.isPresent()) {
+                r.setStatus(200);
+                r.setData(foundInsumo.get());
+            } else {
+                r.setStatus(404);
+                r.setData("Not found");
+            }
+        } catch (Exception e) {
+            r.setStatus(500);
+            r.setData("Internal server error");
         }
 
-        r.setStatus(200);
-        r.setData(insumo);
         salida = gson.toJson(r);
-
         return salida;
     }
 }

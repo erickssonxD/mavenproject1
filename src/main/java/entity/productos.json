@@ -1,0 +1,19 @@
+{
+    "insumos": [
+        {
+            "codigo": 10,
+            "nombre": "alicate",
+            "valor": 4100
+        },
+        {
+            "codigo": 11,
+            "nombre": "Caja Tuercas 1’",
+            "valor": 4990
+        },
+        {
+            "codigo": 12,
+            "nombre": "Bolsa Cemento",
+            "valor": 7990
+        }
+    ]
+}
